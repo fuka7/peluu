@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servicios - Peluquería Talcahuano</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="container nav-content">
+                <a href="index.html" class="logo">Peluquería Talcahuano</a>
+                <div class="nav-links">
+                    <a href="index.html">Inicio</a>
+                    <a href="#servicios">Servicios</a>
+                    <a href="reservar.html">Reservar</a>
+                    <a href="#contacto">Contacto</a>
+                    <a href="carrito.html" class="cart-link">Carrito 🛒</a>
+                    <a href="perfil.html" id="perfilLink">Perfil</a>
+                    <a href="agenda_estilista.html" id="agendaLink" style="display: none;">Ver Agenda</a> <!-- Solo visible para estilistas -->
+                    <a href="admin_dashboard.html" id="adminLink" style="display: none;">Administrar Sistema</a> <!-- Solo administradores -->
+                </div>
+                <div class="auth-links" id="authLinks"></div>
+
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="servicios" class="section">
+            <div class="container">
+                <h2 class="section-title">Nuestros Servicios</h2>
+                <div class="service-grid">
+                    <div class="service-card">
+                        <img src="/img/corte.png" alt="Corte de Cabello">
+                        <div class="service-card-content">
+                            <h3>Corte de Cabello</h3>
+                            <p>Estilos modernos y clásicos para todos los gustos.</p>
+                            <p><strong>Precio: $20.000</strong></p>
+                            <a href="reservar.html" class="btn">Reservar</a> <!-- Cambiar botón para reservar -->
+                        </div>
+                    </div>
+                    <div class="service-card">
+                        <img src="/img/coloracion.jpg" alt="Coloración">
+                        <div class="service-card-content">
+                            <h3>Coloración</h3>
+                            <p>Desde tonos naturales hasta los más atrevidos.</p>
+                            <p><strong>Precio: $35.000</strong></p>
+                            <a href="reservar.html" class="btn">Reservar</a> <!-- Cambiar botón para reservar -->
+                        </div>
+                    </div>
+                    <div class="service-card">
+                        <img src="/img/peinados.jpg" alt="Peinados">
+                        <div class="service-card-content">
+                            <h3>Peinados</h3>
+                            <p>Para eventos especiales o tu día a día.</p>
+                            <p><strong>Precio: $15.000</strong></p>
+                            <a href="reservar.html" class="btn">Reservar</a> <!-- Cambiar botón para reservar -->
+                        </div>
+                    </div>
+                    <div class="service-card">
+                        <img src="/img/tratamientos.jpg" alt="Tratamientos">
+                        <div class="service-card-content">
+                            <h3>Tratamientos</h3>
+                            <p>Revitaliza y cuida tu cabello.</p>
+                            <p><strong>Precio: $25.000</strong></p>
+                            <a href="reservar.html" class="btn">Reservar</a> <!-- Cambiar botón para reservar -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="estilista" class="section bg-gray-100">
+            <div class="container">
+                <h2 class="section-title">Nuestro Estilista Destacado</h2>
+                <div class="service-card">
+                    <div class="service-card-content">
+                        <img src="/img/maria.jpg" alt="María Estilos" class="rounded-full w-32 h-32 mx-auto mb-4">
+                        <h3>María Estilos</h3>
+                        <p>Experta en coloración y peinados con más de 10 años de experiencia.</p>
+                        
+                        <div class="mt-4">
+                            <h4 class="font-semibold">Disponibilidad</h4>
+                            <ul class="list-none">
+                                <li>Lunes a Viernes: 9:00 - 18:00</li>
+                                <li>Sábado: 10:00 - 16:00</li>
+                                <li>Domingo: Cerrado</li>
+                            </ul>
+                        </div>
+                        
+                        <a href="reservar.html" class="btn mt-4">Reservar con María</a> <!-- Cambiar botón para reservar -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="testimonios" class="section bg-gray-200">
+            <div class="container">
+                <h2 class="section-title">Opiniones de Nuestros Clientes</h2>
+                <div class="testimonial-grid">
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            <div class="testimonial-stars">★★★★★</div>
+                            <p class="testimonial-text">"¡Increíble experiencia! María es una verdadera artista. Me hizo un balayage que superó todas mis expectativas. El ambiente del salón es muy acogedor y el servicio es de primera clase."</p>
+                            <div class="testimonial-author">
+                                <strong>Carolina Martínez</strong>
+                                <span class="testimonial-date">Hace 2 semanas</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            <div class="testimonial-stars">★★★★★</div>
+                            <p class="testimonial-text">"Llevo años confiando en Peluquería Talcahuano para mi cuidado capilar. Los tratamientos son excelentes y el personal siempre está actualizado con las últimas tendencias. ¡No cambiaría de peluquería por nada!"</p>
+                            <div class="testimonial-author">
+                                <strong>Pedro Soto</strong>
+                                <span class="testimonial-date">Hace 1 mes</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            <div class="testimonial-stars">★★★★★</div>
+                            <p class="testimonial-text">"Me encanta cómo quedó mi nuevo corte. La atención es personalizada y te asesoran según tu tipo de rostro y estilo. Los precios son justos para la calidad del servicio que ofrecen."</p>
+                            <div class="testimonial-author">
+                                <strong>Ana Valencia</strong>
+                                <span class="testimonial-date">Hace 3 semanas</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            <div class="testimonial-stars">★★★★★</div>
+                            <p class="testimonial-text">"Vine por recomendación de una amiga y quedé fascinada. El trato es muy profesional y el resultado fue mejor de lo que esperaba. Definitivamente volveré para mi próximo cambio de look."</p>
+                            <div class="testimonial-author">
+                                <strong>Marcela Ruiz</strong>
+                                <span class="testimonial-date">Hace 1 semana</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contacto" class="section">
+            <div class="container">
+                <h2 class="section-title">Contáctanos</h2>
+                <div class="contact-grid">
+                    <div class="contact-item">
+                        <h3>Dirección</h3>
+                        <p>Av. Principal 123, Talcahuano</p>
+                    </div>
+                    <div class="contact-item">
+                        <h3>Teléfono</h3>
+                        <p>(41) 2345678</p>
+                    </div>
+                    <div class="contact-item">
+                        <h3>Email</h3>
+                        <p>info@peluqueriatalcahuano.cl</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>© 2024 Peluquería Talcahuano. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+</body>
+<script src="js/auth.js"></script>
+</html>
+

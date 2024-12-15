@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - Peluquería Talcahuano</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <main>
+        <section id="registro" class="section">
+            <div class="container">
+                <h2 class="section-title">Registrarse</h2>
+                <form id="registroForm">
+                    <div class="form-group">
+                        <label for="usuario">Nombre de Usuario</label>
+                        <input type="text" id="usuario" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Contraseña</label>
+                        <input type="password" id="password" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn">Registrar</button>
+                </form>
+                <p>¿Ya tienes una cuenta? <a href="login.html">Inicia sesión aquí</a>.</p>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        document.getElementById('registroForm').onsubmit = (e) => {
+            e.preventDefault();
+
+            const nuevoUsuario = {
+                usuario: document.getElementById('usuario').value,
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value,
+                rol: 'cliente',
+            };
+
+            // Obtener usuarios existentes
+            let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+
+            // Verificar si el usuario ya existe
+            const usuarioExistente = usuarios.find(u => u.usuario === nuevoUsuario.usuario || u.email === nuevoUsuario.email);
+
+            if (usuarioExistente) {
+                alert('El nombre de usuario o el correo electrónico ya están registrados. Por favor, elige otros.');
+                return; // Detener el registro
+            }
+
+            // Guardar el nuevo usuario en localStorage
+            usuarios.push(nuevoUsuario);
+            localStorage.setItem('usuarios', JSON.stringify(usuarios));
+
+            // Autenticar al usuario automáticamente
+            localStorage.setItem('usuario', JSON.stringify(nuevoUsuario));
+
+            alert('Usuario registrado exitosamente. Redirigiendo a la página principal.');
+
+            // Redirigir a la página principal
+            window.location.href = 'index.html';
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito de Compras - Peluquería Talcahuano</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="container nav-content">
+                <a href="index.html" class="logo">Peluquería Talcahuano</a>
+                <div class="nav-links">
+                    <a href="index.html">Inicio</a>
+                    <a href="servicios.html">Servicios</a>
+                    <a href="reservar.html">Reservar</a>
+                    <a href="#contacto">Contacto</a>
+                    <a href="carrito.html" class="cart-link">Carrito 🛒</a>
+                    <a href="perfil.html" id="perfilLink">Perfil</a>
+                    <a href="agenda_estilista.html" id="agendaLink" style="display: none;">Ver Agenda</a>
+                    <a href="admin_dashboard.html" id="adminLink" style="display: none;">Administrar Sistema</a>
+                </div>
+                <div class="auth-links" id="authLinks"></div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="carrito" class="section">
+            <div class="container">
+                <h2 class="section-title">Tu Carrito</h2>
+                <div id="cart-items" class="cart-items">
+                    <!-- Aquí se mostrarán los productos seleccionados -->
+                </div>
+                <div class="cart-summary">
+                    <h3>Total: <span id="cart-total">$0</span></h3>
+                    <button class="btn" onclick="checkout()">Finalizar Compra</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>© 2024 Peluquería Talcahuano. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+    
+    <div id="notification"></div>
+
+    <script>
+        // Función para renderizar el carrito
+        function renderCart() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const cartItemsContainer = document.getElementById('cart-items');
+            const cartTotalElement = document.getElementById('cart-total');
+            
+            // Limpiar contenedor de elementos del carrito
+            cartItemsContainer.innerHTML = '';
+            
+            // Variable para calcular el total
+            let total = 0;
+
+            // Iterar sobre los elementos del carrito
+            cart.forEach((item, index) => {
+                // Sumar al total
+                total += item.price;
+                
+                // Crear elemento para cada producto
+                const itemElement = document.createElement('div');
+                itemElement.classList.add('cart-item');
+                itemElement.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+                    <div class="cart-item-details">
+                        <p>${item.name}</p>
+                        <p><strong>$${item.price.toLocaleString('es-CL')}</strong></p>
+                    </div>
+                    <button class="btn-remove" onclick="removeFromCart(${index})">Eliminar</button>
+                `;
+                
+                // Agregar el elemento al contenedor
+                cartItemsContainer.appendChild(itemElement);
+            });
+
+            // Actualizar total
+            cartTotalElement.textContent = `$${total.toLocaleString('es-CL')}`;
+        }
+
+        // Función para eliminar un elemento del carrito
+        function removeFromCart(index) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart.splice(index, 1);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            renderCart();
+        }
+
+        // Función para finalizar la compra
+        function checkout() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            
+            if (cart.length === 0) {
+                alert('Tu carrito está vacío');
+                return;
+            }
+
+            // Aquí podrías agregar lógica adicional como validación de pago
+            alert('¡Compra finalizada! Gracias por tu preferencia.');
+            
+            // Limpiar el carrito
+            localStorage.removeItem('cart');
+            renderCart();
+        }
+
+        // Renderizar el carrito al cargar la página
+        document.addEventListener('DOMContentLoaded', renderCart);
+    </script>
+    <script src="js/auth.js"></script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html> 
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Perfil - Peluquería Talcahuano</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="container nav-content">
+                <a href="index.html" class="logo">Peluquería Talcahuano</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="perfil" class="section">
+            <div class="container">
+                <h2 class="section-title">Mi Perfil</h2>
+                <p>Bienvenido, <span id="usuarioName">Cliente</span></p>
+
+                <form id="perfilForm">
+                    <div class="form-group">
+                        <label for="nuevoNombre">Nuevo Nombre</label>
+                        <input type="text" id="nuevoNombre" class="form-control" placeholder="Nuevo Nombre">
+                    </div>
+                    <div class="form-group">
+                        <label for="nuevoEmail">Nuevo Email</label>
+                        <input type="email" id="nuevoEmail" class="form-control" placeholder="Nuevo Email">
+                    </div>
+                    <div class="form-group">
+                        <label for="nuevoTelefono">Nuevo Teléfono</label>
+                        <input type="tel" id="nuevoTelefono" class="form-control" placeholder="Nuevo Teléfono">
+                    </div>
+                    <button type="submit" class="btn">Actualizar Información</button>
+                </form>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>© 2024 Peluquería Talcahuano. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+    const usuario = JSON.parse(localStorage.getItem("usuario"));
+    const notificacionesDiv = document.getElementById("notificaciones");
+    const btnDesactivar = document.getElementById("desactivarNotificaciones");
+
+    if (usuario) {
+        // Mostrar los datos del usuario en los campos de perfil
+        document.getElementById('usuarioName').textContent = usuario.usuario;
+        document.getElementById('nuevoNombre').value = usuario.usuario || '';
+        document.getElementById('nuevoEmail').value = usuario.email || '';
+        document.getElementById('nuevoTelefono').value = usuario.telefono || '';
+
+
+        // Actualizar información del perfil
+        const perfilForm = document.getElementById("perfilForm");
+        perfilForm.addEventListener("submit", (event) => {
+            event.preventDefault();
+
+            // Obtener los valores del formulario
+            const nuevoNombre = document.getElementById("nuevoNombre").value.trim();
+            const nuevoEmail = document.getElementById("nuevoEmail").value.trim();
+            const nuevoTelefono = document.getElementById("nuevoTelefono").value.trim();
+
+            // Validar que los campos no estén vacíos
+            if (!nuevoNombre || !nuevoEmail || !nuevoTelefono) {
+                alert("Por favor completa todos los campos.");
+                return;
+            }
+
+            // Actualizar los datos del usuario en localStorage
+            usuario.usuario = nuevoNombre;
+            usuario.email = nuevoEmail;
+            usuario.telefono = nuevoTelefono;
+
+            localStorage.setItem("usuario", JSON.stringify(usuario));
+            alert("Información actualizada.");
+        });
+    } else {
+        window.location.href = "login.html"; // Redirigir al login si no hay usuario autenticado
+    }
+});
+    </script>
+</body>
+</html>

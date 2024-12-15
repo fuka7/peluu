@@ -1,0 +1,327 @@
+<!DOCTYPE html> 
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración - Peluquería Talcahuano</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            margin: 0;
+        }
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background-color: #2c3e50;
+            color: white;
+            padding-top: 20px;
+            position: fixed;
+        }
+        .sidebar a {
+            display: block;
+            padding: 15px;
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        .sidebar a:hover {
+            background-color: #34495e;
+        }
+        .main-content {
+            margin-left: 250px;
+            padding: 40px;
+            flex: 1;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #34495e;
+            padding: 10px;
+            color: white;
+        }
+        header .user-info {
+            font-size: 16px;
+        }
+        .btn {
+            background-color: #2980b9;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .btn:hover {
+            background-color: #3498db;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        table th {
+            background-color: #34495e;
+            color: white;
+        }
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background-color: #ecf0f1;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2 style="text-align: center;">Menú</h2>
+        <a href="#citas">Gestión de Citas</a>
+        <a href="#usuarios">Gestión de Usuarios</a>
+        <a href="#inventario">Gestión de Inventario</a>
+        <a href="login.html" class="btn">Cerrar Sesión</a>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <div class="user-info">
+                <span>Bienvenido, Administrador</span>
+            </div>
+        </header>
+
+        <!-- Gestión de Citas -->
+        <section id="citas">
+            <h2>Gestión de Citas</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Cliente</th>
+                        <th>Estilista</th>
+                        <th>Servicio</th>
+                        <th>Fecha</th>
+                        <th>Hora</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="citas-list">
+                    <!-- Llenado dinámico -->
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Gestión de Usuarios -->
+        <section id="usuarios">
+            <h2>Gestión de Usuarios</h2>
+            <button class="btn" onclick="toggleForm('userForm')">Añadir Usuario</button>
+            <div class="form-container" id="userForm" style="display: none;">
+                <input type="text" placeholder="Nombre del Usuario" id="userName">
+                <input type="text" placeholder="Rol (Cliente/Estilista)" id="userRole">
+                <button class="btn" onclick="createUser()">Guardar</button>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Rol</th>
+                        <th>Email</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="usuarios-list">
+                    <!-- Llenado dinámico -->
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Gestión de Inventario -->
+        <section id="inventario">
+            <h2>Gestión de Inventario</h2>
+            <button class="btn" onclick="toggleForm('inventoryForm')">Añadir Producto</button>
+            <div class="form-container" id="inventoryForm" style="display: none;">
+                <input type="text" placeholder="Nombre del Producto" id="productName">
+                <input type="number" placeholder="Precio" id="productPrice">
+                <button class="btn" onclick="addProduct()">Guardar</button>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Precio</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="inventory-list">
+                    <!-- Llenado dinámico -->
+                </tbody>
+            </table>
+        </section>
+    </div>
+
+    <script>
+        // Cargar citas dinámicamente desde localStorage
+        function cargarCitas() {
+            const citasList = document.getElementById('citas-list');
+            const citas = JSON.parse(localStorage.getItem('historialCitas')) || [];
+
+            citasList.innerHTML = ''; // Limpiar contenido previo
+
+            if (citas.length === 0) {
+                citasList.innerHTML = '<tr><td colspan="7">No hay citas registradas.</td></tr>';
+                return;
+            }
+
+            citas.forEach((cita, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${cita.nombre}</td>
+                    <td>${cita.estilista || 'Sin asignar'}</td>
+                    <td>${cita.servicio}</td>
+                    <td>${cita.fecha}</td>
+                    <td>${cita.hora}</td>
+                    <td>${cita.estado}</td>
+                    <td>
+                        <button class="btn" onclick="editarCita(${index})">Editar</button>
+                        <button class="btn" onclick="eliminarCita(${index})">Eliminar</button>
+                    </td>
+                `;
+                citasList.appendChild(row);
+            });
+        }
+
+        function editarCita(index) {
+            const citas = JSON.parse(localStorage.getItem('historialCitas')) || [];
+            const cita = citas[index];
+            const nuevoEstado = prompt(`Editar estado de la cita para ${cita.nombre}`, cita.estado);
+
+            if (nuevoEstado) {
+                citas[index].estado = nuevoEstado;
+                localStorage.setItem('historialCitas', JSON.stringify(citas));
+                cargarCitas();
+            }
+        }
+
+        function eliminarCita(index) {
+            const citas = JSON.parse(localStorage.getItem('historialCitas')) || [];
+            citas.splice(index, 1);
+            localStorage.setItem('historialCitas', JSON.stringify(citas));
+            cargarCitas();
+        }
+
+        function toggleForm(formId) {
+            const form = document.getElementById(formId);
+            form.style.display = form.style.display === 'none' || form.style.display === '' ? 'flex' : 'none';
+        }
+
+        function createUser() {
+            const usuariosList = document.getElementById('usuarios-list');
+            const name = document.getElementById('userName').value;
+            const role = document.getElementById('userRole').value;
+            const email = prompt('Ingrese el email del usuario');
+
+            const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+            usuarios.push({ name, role, email });
+            localStorage.setItem('usuarios', JSON.stringify(usuarios));
+            cargarUsuarios();
+        }
+
+        function cargarUsuarios() {
+            const usuariosList = document.getElementById('usuarios-list');
+            const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+
+            usuariosList.innerHTML = ''; // Limpiar contenido previo
+
+            if (usuarios.length === 0) {
+                usuariosList.innerHTML = '<tr><td colspan="4">No hay usuarios registrados.</td></tr>';
+                return;
+            }
+
+            usuarios.forEach((usuario, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${usuario.name}</td>
+                    <td>${usuario.role}</td>
+                    <td>${usuario.email}</td>
+                    <td>
+                        <button class="btn" onclick="eliminarUsuario(${index})">Eliminar</button>
+                    </td>
+                `;
+                usuariosList.appendChild(row);
+            });
+        }
+
+        function eliminarUsuario(index) {
+            const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+            usuarios.splice(index, 1);
+            localStorage.setItem('usuarios', JSON.stringify(usuarios));
+            cargarUsuarios();
+        }
+
+        function addProduct() {
+            const inventoryList = document.getElementById('inventory-list');
+            const name = document.getElementById('productName').value;
+            const price = document.getElementById('productPrice').value;
+
+            const productos = JSON.parse(localStorage.getItem('productos')) || [];
+            productos.push({ name, price });
+            localStorage.setItem('productos', JSON.stringify(productos));
+            cargarInventario();
+        }
+
+        function cargarInventario() {
+            const inventoryList = document.getElementById('inventory-list');
+            const productos = JSON.parse(localStorage.getItem('productos')) || [];
+
+            inventoryList.innerHTML = ''; // Limpiar contenido previo
+
+            if (productos.length === 0) {
+                inventoryList.innerHTML = '<tr><td colspan="3">No hay productos registrados.</td></tr>';
+                return;
+            }
+
+            productos.forEach((producto, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${producto.name}</td>
+                    <td>${producto.price}</td>
+                    <td>
+                        <button class="btn" onclick="eliminarProducto(${index})">Eliminar</button>
+                    </td>
+                `;
+                inventoryList.appendChild(row);
+            });
+        }
+
+        function eliminarProducto(index) {
+            const productos = JSON.parse(localStorage.getItem('productos')) || [];
+            productos.splice(index, 1);
+            localStorage.setItem('productos', JSON.stringify(productos));
+            cargarInventario();
+        }
+
+        // Inicializar al cargar la página
+        document.addEventListener('DOMContentLoaded', () => {
+            cargarCitas();
+            cargarUsuarios();
+            cargarInventario();
+        });
+
+        // Escuchar cambios en tiempo real
+        window.addEventListener('storage', (event) => {
+            if (event.key === 'historialCitas') cargarCitas();
+            if (event.key === 'usuarios') cargarUsuarios();
+            if (event.key === 'productos') cargarInventario();
+        });
+    </script>
+</body>
+</html>
+
+

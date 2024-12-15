@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservar Cita - Peluquería Talcahuano</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Importación de fuentes */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        /* Estilos base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: #000000;
+        }
+
+        /* Contenedor principal */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Header y Navegación */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 4px rgb(175, 174, 174);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            padding: 1rem 0;
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #000000;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: #000000;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #2563EB;
+        }
+
+        /* Formulario de Reserva */
+        .booking-form {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: rgb(255, 255, 255);
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.384);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ffffff;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        /* Historial de Citas */
+        .section-title {
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #050505;
+        }
+
+        /* Estilo de tabla para el historial */
+        .tabla-historial {
+            width: 100%;
+            margin-top: 2rem;
+            border-collapse: collapse;
+            background-color: #f9f9f9;
+        }
+
+        .tabla-historial th, .tabla-historial td {
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        .tabla-historial th {
+            background-color: #2563EB;
+            color: white;
+        }
+
+        .tabla-historial tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        /* Estilo de los botones de acción */
+        .btn-action {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .btn-modificar {
+            background-color: #4caf50;
+            color: white;
+        }
+
+        .btn-cancelar {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        .btn-action:hover {
+            opacity: 0.8;
+        }
+
+        footer {
+            background-color: #000000;
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="container nav-content">
+                <a href="index.html" class="logo">Peluquería Talcahuano</a>
+                <div class="nav-links">
+                    <a href="index.html">Inicio</a>
+                    <a href="servicios.html">Servicios</a>
+                    <a href="reservar.html">Reservar</a>
+                    <a href="#contacto">Contacto</a>
+                    <a href="carrito.html" class="cart-link">Carrito 🛒</a>
+                    <a href="perfil.html" id="perfilLink">Perfil</a>
+                    <a href="agenda_estilista.html" id="agendaLink" style="display: none;">Ver Agenda</a>
+                    <a href="admin_dashboard.html" id="adminLink" style="display: none;">Administrar Sistema</a>
+                </div>
+                <div class="auth-links" id="authLinks"></div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="reservar" class="section">
+            <div class="container">
+                <h2 class="section-title">Reservar Cita</h2>
+                <form id="formReserva">
+                    <div class="form-group">
+                        <label for="nombre">Nombre completo</label>
+                        <input type="text" id="nombre" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="servicio">Servicio</label>
+                        <select id="servicio" class="form-control" required>
+                            <option value="">Seleccionar...</option>
+                            <option value="Corte de Cabello">Corte de Cabello - $20.000</option>
+                            <option value="Coloración">Coloración - $35.000</option>
+                            <option value="Peinados">Peinados - $15.000</option>
+                            <option value="Tratamientos">Tratamientos - $25.000</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="fecha">Fecha</label>
+                        <input type="date" id="fecha" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="hora">Hora</label>
+                        <input type="time" id="hora" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn">Reservar</button>
+                </form>
+
+                <!-- Mensaje de confirmación -->
+                <div id="mensajeConfirmacion" style="display: none; margin-top: 20px;">
+                    <p>¡Reserva realizada exitosamente!</p>
+                </div>
+
+                <!-- Historial de citas -->
+                <div id="historialCitas" style="margin-top: 40px;">
+                    <h3 class="section-title">Historial de Citas</h3>
+                    <table id="tablaHistorial" class="tabla-historial">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Servicio</th>
+                                <th>Fecha</th>
+                                <th>Hora</th>
+                                <th>Estado</th>
+                                <th>Notas</th> 
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Las citas se insertarán aquí dinámicamente -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>© 2024 Peluquería Talcahuano. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <div id="notification"></div>
+    <script>
+        // Obtener datos del usuario autenticado
+const usuario = JSON.parse(localStorage.getItem('usuario'));
+
+if (!usuario) {
+    window.location.href = 'login.html'; // Si no está autenticado, redirige a login
+} else {
+    // Autocompletar nombre y email en el formulario
+    document.getElementById('nombre').value = usuario.usuario;
+    document.getElementById('email').value = usuario.email;
+
+    // Mostrar botón "Cerrar Sesión"
+    const authLinks = document.getElementById('authLinks');
+    const logoutBtn = document.createElement('a');
+    logoutBtn.textContent = "Cerrar Sesión";
+    logoutBtn.href = "#";
+    logoutBtn.classList.add("btn-login");
+    logoutBtn.onclick = () => {
+        localStorage.removeItem('usuario');
+        window.location.href = 'login.html'; // Redirigir al login tras cerrar sesión
+    };
+    authLinks.appendChild(logoutBtn);
+}
+
+// Función para agregar notificaciones al perfil
+function agregarNotificacion(mensaje) {
+    const notificaciones = JSON.parse(localStorage.getItem("notificaciones")) || [];
+    notificaciones.push(mensaje);
+    localStorage.setItem("notificaciones", JSON.stringify(notificaciones)); // Guardar en localStorage
+}
+
+
+// Manejar el formulario de reserva
+const formReserva = document.getElementById('formReserva');
+const mensajeConfirmacion = document.getElementById('mensajeConfirmacion');
+const tablaHistorial = document.getElementById('tablaHistorial').getElementsByTagName('tbody')[0];
+
+formReserva.onsubmit = function (e) {
+    e.preventDefault();
+
+    // Obtener los datos del formulario
+    const nombre = document.getElementById('nombre').value;
+    const email = document.getElementById('email').value;
+    const servicio = document.getElementById('servicio').value;
+    const fecha = document.getElementById('fecha').value;
+    const hora = document.getElementById('hora').value;
+
+    // Crear una nueva cita incluyendo el rol del usuario
+    const nuevaCita = {
+        nombre,
+        email,
+        servicio,
+        fecha,
+        hora,
+        estado: 'Pendiente', // Las reservas comienzan como pendientes
+        rol: usuario.rol // Asegurarte de guardar el rol del cliente
+    };
+
+    // Obtener las citas actuales del localStorage o inicializar una lista vacía
+    const historialCitas = JSON.parse(localStorage.getItem('historialCitas')) || [];
+
+    // Agregar la nueva cita
+    historialCitas.push(nuevaCita);
+
+    // Guardar en localStorage
+    localStorage.setItem('historialCitas', JSON.stringify(historialCitas));
+
+    // Mostrar mensaje de confirmación
+    mensajeConfirmacion.style.display = 'block';
+
+    // Actualizar el historial en la misma página
+    actualizarHistorial(historialCitas);
+
+    // Resetear el formulario
+    formReserva.reset();
+};
+
+// Función para actualizar el historial de citas
+function actualizarHistorial(historialCitas) {
+    const tablaHistorial = document.getElementById('tablaHistorial').getElementsByTagName('tbody')[0];
+    tablaHistorial.innerHTML = ''; // Limpiar la tabla antes de agregar las filas
+
+    // Filtrar citas del usuario actual
+    const citasUsuario = historialCitas.filter(cita => cita.email === usuario.email);
+
+    citasUsuario.forEach(cita => {
+        const row = tablaHistorial.insertRow();
+        row.insertCell(0).textContent = cita.nombre;
+        row.insertCell(1).textContent = cita.servicio;
+        row.insertCell(2).textContent = cita.fecha;
+        row.insertCell(3).textContent = cita.hora;
+        row.insertCell(4).textContent = cita.estado; // Mostrar estado actualizado
+        row.insertCell(5).textContent = cita.notas || 'Sin notas';
+
+        const accionesCell = row.insertCell(6);
+        if (usuario.rol === 'cliente' && cita.estado === 'Pendiente') {
+            const btnCancelar = document.createElement('button');
+            btnCancelar.classList.add('btn-action', 'btn-cancelar');
+            btnCancelar.textContent = 'Cancelar';
+            btnCancelar.onclick = () => cancelarCita(cita);
+            accionesCell.appendChild(btnCancelar);
+        }
+    });
+}
+
+// Función para cancelar una cita (por el cliente)
+function cancelarCita(cita) {
+    const confirmacion = confirm(`¿Estás seguro de que quieres cancelar la cita de ${cita.nombre}?`);
+    if (confirmacion) {
+        const historialCitas = JSON.parse(localStorage.getItem('historialCitas')) || [];
+        const index = historialCitas.findIndex(c => c.nombre === cita.nombre && c.fecha === cita.fecha && c.hora === cita.hora);
+        if (index !== -1) {
+            historialCitas[index].estado = 'Cancelada'; // Cambiar estado de la cita
+            localStorage.setItem('historialCitas', JSON.stringify(historialCitas)); // Guardar las citas actualizadas
+            actualizarHistorial(historialCitas); // Actualizar la tabla
+
+            // Mostrar mensaje emergente al cliente
+            mostrarNotificacion(`¡Tu cita de ${cita.servicio} ha sido cancelada!`);
+            
+            // Guardar notificación en el perfil
+            agregarNotificacion(`Tu cita para el servicio ${cita.servicio} ha sido cancelada.`);
+        }
+    }
+}
+// Función para aprobar una cita
+function aprobarCita(cita) {
+    const historialCitas = JSON.parse(localStorage.getItem('historialCitas')) || [];
+    const index = historialCitas.findIndex(c => c.nombre === cita.nombre && c.fecha === cita.fecha && c.hora === cita.hora);
+    if (index !== -1) {
+        historialCitas[index].estado = 'Aprobada'; // Cambiar estado de la cita
+        localStorage.setItem('historialCitas', JSON.stringify(historialCitas)); // Guardar las citas actualizadas
+        actualizarHistorial(historialCitas); // Actualizar la tabla
+
+        // Mostrar mensaje emergente al cliente
+        mostrarNotificacion(`¡Tu cita de ${cita.servicio} ha sido aprobada!`);
+        
+        // Guardar notificación en el perfil
+        agregarNotificacion(`Tu cita para el servicio ${cita.servicio} ha sido aprobada.`);
+    }
+}
+
+// Función para mostrar una notificación emergente
+function mostrarNotificacion(mensaje) {
+    const notification = document.getElementById('notification');
+    notification.textContent = mensaje;
+    notification.style.display = 'block';
+
+    setTimeout(() => {
+        notification.style.display = 'none';
+    }, 3000); // Desaparece después de 3 segundos
+}
+
+// Cargar el historial de citas al cargar la página
+const historialCitas = JSON.parse(localStorage.getItem('historialCitas')) || [];
+actualizarHistorial(historialCitas); // Mostrar las citas actuales al cargar la página
+
+// Escuchar cambios en el localStorage desde otras pestañas
+window.addEventListener('storage', (event) => {
+    if (event.key === 'historialCitas') { // Si cambian las citas
+        const historialCitasActualizado = JSON.parse(localStorage.getItem('historialCitas')) || [];
+        actualizarHistorial(historialCitasActualizado); // Actualizar la tabla del historial
+        
+        // Mostrar un mensaje emergente si hay cambios
+        const usuarioCitas = historialCitasActualizado.filter(cita => cita.email === usuario.email);
+        usuarioCitas.forEach(cita => {
+            if (cita.estado === 'Aprobada') {
+                mostrarNotificacion(`¡Tu cita para el servicio ${cita.servicio} ha sido aprobada!`);
+            } else if (cita.estado === 'Cancelada') {
+                mostrarNotificacion(`Lamentamos informarte que tu cita para el servicio ${cita.servicio} ha sido cancelada.`);
+            }
+        });
+    }
+});
+    </script>    
+</body>
+</html>

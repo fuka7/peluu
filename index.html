@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peluquería Talcahuano - Tu Estilo, Nuestra Pasión</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="container nav-content">
+                <a href="index.html" class="logo">Peluquería Talcahuano</a>
+                <div class="nav-links">
+                    <a href="index.html">Inicio</a>
+                    <a href="servicios.html">Servicios</a>
+                    <a href="reservar.html">Reservar</a>
+                    <a href="#contacto">Contacto</a>
+                    <a href="carrito.html" class="cart-link">Carrito 🛒</a>
+                    <a href="perfil.html" id="perfilLink">Perfil</a>
+                    <a href="registro.html">Registrarse</a>
+                </div>
+                <div class="auth-links" id="authLinks"></div>
+        </nav>
+    </header>
+
+    <main role="main">
+        <section id="inicio" class="section hero" style="background-image: url('/img/fondo.jpg')">
+            <div class="hero-content">
+                <h1>Descubre tu mejor versión</h1>
+                <p>En Peluquería Talcahuano, transformamos tu imagen y elevamos tu confianza!</p>
+                <a href="reservar.html" class="btn">Reserva ahora</a>
+            </div>
+        </section>
+        
+        <!-- Catálogo de Productos -->
+        <section id="catalogo" class="section">
+            <div class="container">
+                <h2 class="section-title">Productos para el Cuidado del Cabello</h2>
+                <div class="welcome-grid">
+                    <!-- Producto 1 -->
+                    <div class="welcome-card">
+                        <img src="/img/shampoo.jpg" alt="Shampoo Revitalizante">
+                        <div class="welcome-card-content">
+                            <h3>Shampoo Revitalizante</h3>
+                            <p>Limpieza profunda y brillo natural.</p>
+                            <p><strong>Precio: $12.990</strong></p>
+                            <button class="btn" onclick="addToCart('Shampoo Revitalizante', 12990, '/img/shampoo.jpg')">Añadir al carrito</button>
+                        </div>
+                    </div>
+
+                    <!-- Producto 2 -->
+                    <div class="welcome-card">
+                        <img src="/img/acondicionador.jpg" alt="Acondicionador Nutritivo">
+                        <div class="welcome-card-content">
+                            <h3>Acondicionador Nutritivo</h3>
+                            <p>Hidratación profunda para un cabello saludable.</p>
+                            <p><strong>Precio: $14.990</strong></p>
+                            <button class="btn" onclick="addToCart('Acondicionador Nutritivo', 14990, '/img/acondicionador.jpg')">Añadir al carrito</button>
+                        </div>
+                    </div>
+
+                    <!-- Producto 3 -->
+                    <div class="welcome-card">
+                        <img src="/img/serum.jpg" alt="Serum Reparador">
+                        <div class="welcome-card-content">
+                            <h3>Serum Reparador</h3>
+                            <p>Reparación intensiva y brillo para puntas dañadas.</p>
+                            <p><strong>Precio: $19.990</strong></p>
+                            <button class="btn" onclick="addToCart('Serum Reparador', 19990, '/img/serum.jpg')">Añadir al carrito</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contacto" class="section">
+            <div class="container">
+                <h2 class="section-title">Contáctanos</h2>
+                <div class="contact-grid">
+                    <div class="contact-item">
+                        <h3>Dirección</h3>
+                        <p>Av. Principal 123, Talcahuano</p>
+                    </div>
+                    <div class="contact-item">
+                        <h3>Teléfono</h3>
+                        <p>(41) 2345678</p>
+                    </div>
+                    <div class="contact-item">
+                        <h3>Email</h3>
+                        <p>info@peluqueriatalcahuano.cl</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            © 2024 Peluquería Talcahuano. Todos los derechos reservados.
+        </div>
+    </footer>
+
+    <div id="notification"></div>
+
+    <script>
+// Función para mostrar una notificación emergente
+function mostrarNotificacion(mensaje) {
+    const notification = document.getElementById('notification');
+    notification.textContent = mensaje;
+    notification.style.display = 'block';
+
+    setTimeout(() => {
+        notification.style.display = 'none';
+    }, 3000); // Desaparece después de 3 segundos
+}
+
+// Modifica la función addToCart para usar mostrarNotificacion
+function addToCart(name, price, image) {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    cart.push({ name, price, image });
+    localStorage.setItem('cart', JSON.stringify(cart));
+
+    // Usar la función genérica de notificación
+    mostrarNotificacion(`"${name}" se ha añadido al carrito.`);
+}
+        document.addEventListener("DOMContentLoaded", () => {
+    const authLinks = document.getElementById("authLinks");
+    const usuario = JSON.parse(localStorage.getItem("usuario"));
+    const registerLink = document.querySelector("a[href='registro.html']"); // Botón de registro
+    const perfilLink = document.querySelector("a[href='perfil.html']"); // Botón de perfil
+
+    if (usuario) {
+        // Ocultar el botón "Registrarse"
+        if (registerLink) {
+            registerLink.style.display = "none";
+        }
+
+        // Mostrar el botón "Perfil"
+        if (perfilLink) {
+            perfilLink.style.display = "inline-block";
+        }
+
+        // Crear botón "Cerrar Sesión"
+        const logoutBtn = document.createElement("a");
+        logoutBtn.textContent = "Cerrar Sesión";
+        logoutBtn.classList.add("btn-login");
+        logoutBtn.href = "#";
+        logoutBtn.onclick = () => {
+            localStorage.removeItem("usuario");
+            location.reload(); // Recargar la página
+        };
+        authLinks.appendChild(logoutBtn);
+    } else {
+        // Ocultar el botón "Perfil" si no hay usuario autenticado
+        if (perfilLink) {
+            perfilLink.style.display = "none";
+        }
+
+        // Mostrar el botón "Iniciar Sesión"
+        const loginBtn = document.createElement("a");
+        loginBtn.textContent = "Iniciar Sesión";
+        loginBtn.classList.add("btn-login");
+        loginBtn.href = "login.html";
+        authLinks.appendChild(loginBtn);
+    }
+});
+    </script>
+</body>
+</html>
